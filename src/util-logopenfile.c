@@ -23,9 +23,6 @@
  *
  * File-like output for logging:  regular files and sockets.
  */
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/un.h>
 
 #include "suricata-common.h" /* errno.h, string.h, etc. */
 #include "tm-modules.h"      /* LogFileCtx */
@@ -35,10 +32,18 @@
 #include "util-logopenfile.h"
 #include "util-logopenfile-tile.h"
 
+#if defined(HAVE_SYS_UN_H) && defined(HAVE_SYS_SOCKET_H) && defined(HAVE_SYS_TYPES_H)
+#define BUILD_WITH_UNIXSOCKET
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#endif
+
 #ifdef HAVE_LIBHIREDIS
 #include "util-log-redis.h"
 #endif /* HAVE_LIBHIREDIS */
 
+#ifdef BUILD_WITH_UNIXSOCKET
 /** \brief connect to the indicated local stream socket, logging any errors
  *  \param path filesystem path to connect to
  *  \param log_err, non-zero if connect failure should be logged.
@@ -172,6 +177,7 @@ tryagain:
 
     return ret;
 }
+#endif /* BUILD_WITH_UNIXSOCKET */
 
 /**
  * \brief Write buffer to log file.
@@ -462,15 +468,23 @@ SCConfLogOpenGeneric(ConfNode *conf,
 
     // Now, what have we been asked to open?
     if (strcasecmp(filetype, "unix_stream") == 0) {
+#ifdef BUILD_WITH_UNIXSOCKET
         /* Don't bail. May be able to connect later. */
         log_ctx->is_sock = 1;
         log_ctx->sock_type = SOCK_STREAM;
         log_ctx->fp = SCLogOpenUnixSocketFp(log_path, SOCK_STREAM, 1);
+#else
+        return -1;
+#endif
     } else if (strcasecmp(filetype, "unix_dgram") == 0) {
+#ifdef BUILD_WITH_UNIXSOCKET
         /* Don't bail. May be able to connect later. */
         log_ctx->is_sock = 1;
         log_ctx->sock_type = SOCK_DGRAM;
         log_ctx->fp = SCLogOpenUnixSocketFp(log_path, SOCK_DGRAM, 1);
+#else
+        return -1;
+#endif
     } else if (strcasecmp(filetype, DEFAULT_LOG_FILETYPE) == 0 ||
                strcasecmp(filetype, "file") == 0) {
         log_ctx->fp = SCLogOpenFileFp(log_path, append, log_ctx->filemode);
