@@ -214,12 +214,13 @@
             ;;
         *-*-linux*)
             #for now do nothing
-	    RUST_LDADD="-ldl -lrt -lm"
+            RUST_LDADD="-ldl -lrt -lm"
             ;;
         *-*-mingw32*)
             CFLAGS="${CFLAGS} -DOS_WIN32"
             LDFLAGS="${LDFLAGS} -lws2_32"
             WINDOWS_PATH="yes"
+            AC_DEFINE([HAVE_NON_POSIX_MKDIR], [1], [mkdir is not POSIX compliant: single arg])
             ;;
         *-*-cygwin)
             LUA_PC_NAME="lua"
