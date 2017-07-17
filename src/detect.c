@@ -398,6 +398,7 @@ static int ProcessSigFiles(DetectEngineCtx *de_ctx, char *pattern,
         return -1;
     }
 
+#ifdef HAVE_GLOB_H
     glob_t files;
     int r = glob(pattern, 0, NULL, &files);
 
@@ -416,6 +417,11 @@ static int ProcessSigFiles(DetectEngineCtx *de_ctx, char *pattern,
         char *fname = files.gl_pathv[i];
         if (strcmp("/dev/null", fname) == 0)
             continue;
+#else
+        char *fname = pattern;
+        if (strcmp("/dev/null", fname) == 0)
+            return 0;
+#endif
 
         SCLogConfig("Loading rule file: %s", fname);
         r = DetectLoadSigFile(de_ctx, fname, good_sigs, bad_sigs);
@@ -427,8 +433,9 @@ static int ProcessSigFiles(DetectEngineCtx *de_ctx, char *pattern,
 
         st->good_sigs_total += *good_sigs;
         st->bad_sigs_total += *bad_sigs;
+#ifdef HAVE_GLOB_H
     }
-
+#endif
     globfree(&files);
     return r;
 }
