@@ -167,6 +167,7 @@
     AC_FUNC_MALLOC
     AC_FUNC_REALLOC
     AC_CHECK_FUNCS([gettimeofday memset strcasecmp strchr strdup strerror strncasecmp strtol strtoul memchr memrchr clock_gettime])
+    AC_CHECK_FUNCS([strptime])
 
     OCFLAGS=$CFLAGS
     CFLAGS=""
