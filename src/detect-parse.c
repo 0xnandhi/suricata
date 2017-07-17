@@ -1303,8 +1303,8 @@ static void SigBuildAddressMatchArray(Signature *s)
         }
 
         for (da = s->init_data->src->ipv4_head; da != NULL; da = da->next) {
-            s->addr_src_match4[idx].ip = ntohl(da->ip.addr_data32[0]);
-            s->addr_src_match4[idx].ip2 = ntohl(da->ip2.addr_data32[0]);
+            s->addr_src_match4[idx].ip = SCNtohl(da->ip.addr_data32[0]);
+            s->addr_src_match4[idx].ip2 = SCNtohl(da->ip2.addr_data32[0]);
             idx++;
         }
         s->addr_src_match4_cnt = cnt;
@@ -1324,8 +1324,8 @@ static void SigBuildAddressMatchArray(Signature *s)
         }
 
         for (da = s->init_data->dst->ipv4_head; da != NULL; da = da->next) {
-            s->addr_dst_match4[idx].ip = ntohl(da->ip.addr_data32[0]);
-            s->addr_dst_match4[idx].ip2 = ntohl(da->ip2.addr_data32[0]);
+            s->addr_dst_match4[idx].ip = SCNtohl(da->ip.addr_data32[0]);
+            s->addr_dst_match4[idx].ip2 = SCNtohl(da->ip2.addr_data32[0]);
             idx++;
         }
         s->addr_dst_match4_cnt = cnt;
@@ -1345,14 +1345,14 @@ static void SigBuildAddressMatchArray(Signature *s)
         }
 
         for (da = s->init_data->src->ipv6_head; da != NULL; da = da->next) {
-            s->addr_src_match6[idx].ip[0] = ntohl(da->ip.addr_data32[0]);
-            s->addr_src_match6[idx].ip[1] = ntohl(da->ip.addr_data32[1]);
-            s->addr_src_match6[idx].ip[2] = ntohl(da->ip.addr_data32[2]);
-            s->addr_src_match6[idx].ip[3] = ntohl(da->ip.addr_data32[3]);
-            s->addr_src_match6[idx].ip2[0] = ntohl(da->ip2.addr_data32[0]);
-            s->addr_src_match6[idx].ip2[1] = ntohl(da->ip2.addr_data32[1]);
-            s->addr_src_match6[idx].ip2[2] = ntohl(da->ip2.addr_data32[2]);
-            s->addr_src_match6[idx].ip2[3] = ntohl(da->ip2.addr_data32[3]);
+            s->addr_src_match6[idx].ip[0] = SCNtohl(da->ip.addr_data32[0]);
+            s->addr_src_match6[idx].ip[1] = SCNtohl(da->ip.addr_data32[1]);
+            s->addr_src_match6[idx].ip[2] = SCNtohl(da->ip.addr_data32[2]);
+            s->addr_src_match6[idx].ip[3] = SCNtohl(da->ip.addr_data32[3]);
+            s->addr_src_match6[idx].ip2[0] = SCNtohl(da->ip2.addr_data32[0]);
+            s->addr_src_match6[idx].ip2[1] = SCNtohl(da->ip2.addr_data32[1]);
+            s->addr_src_match6[idx].ip2[2] = SCNtohl(da->ip2.addr_data32[2]);
+            s->addr_src_match6[idx].ip2[3] = SCNtohl(da->ip2.addr_data32[3]);
             idx++;
         }
         s->addr_src_match6_cnt = cnt;
@@ -1372,14 +1372,14 @@ static void SigBuildAddressMatchArray(Signature *s)
         }
 
         for (da = s->init_data->dst->ipv6_head; da != NULL; da = da->next) {
-            s->addr_dst_match6[idx].ip[0] = ntohl(da->ip.addr_data32[0]);
-            s->addr_dst_match6[idx].ip[1] = ntohl(da->ip.addr_data32[1]);
-            s->addr_dst_match6[idx].ip[2] = ntohl(da->ip.addr_data32[2]);
-            s->addr_dst_match6[idx].ip[3] = ntohl(da->ip.addr_data32[3]);
-            s->addr_dst_match6[idx].ip2[0] = ntohl(da->ip2.addr_data32[0]);
-            s->addr_dst_match6[idx].ip2[1] = ntohl(da->ip2.addr_data32[1]);
-            s->addr_dst_match6[idx].ip2[2] = ntohl(da->ip2.addr_data32[2]);
-            s->addr_dst_match6[idx].ip2[3] = ntohl(da->ip2.addr_data32[3]);
+            s->addr_dst_match6[idx].ip[0] = SCNtohl(da->ip.addr_data32[0]);
+            s->addr_dst_match6[idx].ip[1] = SCNtohl(da->ip.addr_data32[1]);
+            s->addr_dst_match6[idx].ip[2] = SCNtohl(da->ip.addr_data32[2]);
+            s->addr_dst_match6[idx].ip[3] = SCNtohl(da->ip.addr_data32[3]);
+            s->addr_dst_match6[idx].ip2[0] = SCNtohl(da->ip2.addr_data32[0]);
+            s->addr_dst_match6[idx].ip2[1] = SCNtohl(da->ip2.addr_data32[1]);
+            s->addr_dst_match6[idx].ip2[2] = SCNtohl(da->ip2.addr_data32[2]);
+            s->addr_dst_match6[idx].ip2[3] = SCNtohl(da->ip2.addr_data32[3]);
             idx++;
         }
         s->addr_dst_match6_cnt = cnt;
